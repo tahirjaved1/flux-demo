@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c -o charts/fluxcapacitor -f fluxcapacitor-app/docker-compose.yml
+    kompose.version: 1.28.0 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ui
+  name: ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: ui
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c -o charts/fluxcapacitor -f fluxcapacitor-app/docker-compose.yml
+        kompose.version: 1.28.0 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/fluxcapacitor-app-default: "true"
+        io.kompose.service: ui
+    spec:
+      containers:
+        - env:
+            - name: CI
+              value: "true"
+            - name: PROXY
+              value: http://api:4001/graphql
+            - name: REACT_APP_GRAPHQL_URI
+              value: /graphql
+          image: ui
+          name: ui
+          ports:
+            - containerPort: 3000
+          resources: {}
+      restartPolicy: Always
+status: {}

@@ -1,0 +1,8 @@
+name: charts/fluxcapacitor
+description: A generated Helm Chart for charts/fluxcapacitor from Skippbox Kompose
+version: 0.0.1
+apiVersion: v1
+keywords:
+  - charts/fluxcapacitor
+sources:
+home:
